@@ -47,9 +47,13 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const groqApiKey = process.env.GROQ_API_KEY
+    const groqApiKey =
+      process.env.CLINIC_GROQ_API_KEY ||
+      process.env.HEALTHCARE_GROQ_API_KEY ||
+      process.env.GROQ_API_KEY
+
     if (!groqApiKey) {
-      console.warn('[Chat API] GROQ_API_KEY environment variable is not configured')
+      console.warn('[Chat API] CLINIC_GROQ_API_KEY environment variable is not configured')
       return NextResponse.json(
         {
           reply: `I am currently in standby mode because the clinical AI key has not been configured yet. Please reach our reception directly at ${CLINIC_PHONE} or book online.`,
