@@ -8,6 +8,7 @@ import { Menu, X, MessageCircle } from 'lucide-react'
 import { Container } from './Container'
 import { Button } from '@/components/ui/Button'
 import { CLINIC_NAME, CLINIC_WHATSAPP_NUMBER, WHATSAPP_MESSAGE } from '@/lib/constants'
+import { useBookingModal } from '@/context/BookingModalContext'
 import { cn } from '@/lib/utils'
 
 const NAV_LINKS = [
@@ -21,6 +22,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const pathname = usePathname()
+  const { openBookingModal } = useBookingModal()
 
   useEffect(() => {
     const onScroll = () => {
@@ -33,15 +35,6 @@ export function Navbar() {
   useEffect(() => {
     setMobileMenuOpen(false)
   }, [pathname])
-
-  const scrollToBooking = () => {
-    if (pathname === '/') {
-      const el = document.getElementById('booking')
-      el?.scrollIntoView({ behavior: 'smooth' })
-    } else {
-      window.location.href = '/booking'
-    }
-  }
 
   const whatsappUrl = `https://wa.me/${CLINIC_WHATSAPP_NUMBER}?text=${WHATSAPP_MESSAGE}`
 
@@ -101,7 +94,7 @@ export function Navbar() {
             <Button
               variant="primary"
               size="sm"
-              onClick={scrollToBooking}
+              onClick={() => openBookingModal()}
               className="text-xs font-medium tracking-wide px-4 py-2"
             >
               Book Appointment
@@ -166,7 +159,7 @@ export function Navbar() {
                   size="lg"
                   onClick={() => {
                     setMobileMenuOpen(false)
-                    scrollToBooking()
+                    openBookingModal()
                   }}
                   className="w-full h-12 text-sm font-semibold justify-center"
                 >

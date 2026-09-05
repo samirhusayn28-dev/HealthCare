@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Bot, X, Send, Calendar, Sparkles, AlertCircle, RefreshCw, Phone } from 'lucide-react'
 import { CLINIC_NAME, CLINIC_PHONE, CLINIC_PHONE_TEL, CLINIC_PHONE_DISPLAY } from '@/lib/constants'
+import { useBookingModal } from '@/context/BookingModalContext'
 
 interface ChatMessage {
   role: 'user' | 'assistant'
@@ -19,6 +20,7 @@ const QUICK_PROMPTS = [
 ]
 
 export function AiReceptionist() {
+  const { openBookingModal } = useBookingModal()
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
@@ -213,14 +215,17 @@ export function AiReceptionist() {
                   <Phone size={13} className="text-primary" />
                   <span>Call {CLINIC_PHONE_DISPLAY}</span>
                 </a>
-                <Link
-                  href="/booking"
-                  onClick={() => setIsOpen(false)}
-                  className="font-semibold text-primary hover:underline flex items-center gap-1"
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsOpen(false)
+                    openBookingModal()
+                  }}
+                  className="font-semibold text-primary hover:underline flex items-center gap-1 cursor-pointer"
                 >
                   <Calendar size={13} />
                   <span>Book Online &rarr;</span>
-                </Link>
+                </button>
               </div>
 
               {/* Quick Suggestion Chips */}

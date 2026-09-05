@@ -2,46 +2,51 @@
 
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react'
+import { CheckCircle2, ArrowRight } from 'lucide-react'
 import { Container } from '@/components/layout/Container'
+import { useBookingModal } from '@/context/BookingModalContext'
 
 const SHOWCASE_ITEMS = [
   {
-    tag: 'Diagnostic Radiology',
-    title: '3T High-Field Magnetic Resonance',
+    title: '3T Wide-Bore Diagnostic MRI',
+    tag: 'Siemens Magnetom',
     description:
-      'Ultra-quiet, wide-bore 3-Tesla MRI technology delivers neurological and orthopedic imaging with sub-millimeter anatomical precision in half conventional duration.',
-    image: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?w=1200&auto=format&fit=crop&q=80',
-    specs: ['Sub-millimeter resolution', 'Zero ionizing radiation', 'Same-day radiologist review'],
+      'Ultra-high resolution neuro, musculoskeletal, and cardiac MRI imaging with acoustic reduction and same-day radiologist readings.',
+    image:
+      'https://images.unsplash.com/photo-1516549655169-df83a0774514?w=1000&auto=format&fit=crop&q=85',
+    specs: ['Sub-millimeter spatial resolution', 'Zero ionising radiation', 'Claustrophobia-reducing wide bore'],
   },
   {
-    tag: 'Preventive Specialty',
-    title: 'Precision Cardiovascular Analysis',
+    title: 'High-Resolution Color Doppler Ultrasound',
+    tag: 'GE Voluson Expert',
     description:
-      'Comprehensive non-invasive cardiovascular profiling combining color Doppler echocardiography, carotid intima-media thickness, and advanced lipid fraction testing.',
-    image: 'https://images.unsplash.com/photo-1551076805-e1869033e561?w=1200&auto=format&fit=crop&q=80',
-    specs: ['Color Doppler sonography', 'Advanced lipid fraction panels', 'Direct cardiologist consultation'],
+      'Real-time hemodynamic vascular assessments, echocardiography, and musculoskeletal guided diagnostic interventions.',
+    image:
+      'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1000&auto=format&fit=crop&q=85',
+    specs: ['Direct physician-performed scans', 'Instant hemodynamics visualization', 'Non-invasive point-of-care'],
   },
   {
-    tag: 'Molecular Diagnostics',
-    title: 'In-House Robotic Pathology',
+    title: 'Automated Clinical Pathology Suite',
+    tag: 'Roche Cobas Lab',
     description:
-      'Fully automated on-site pathology laboratory eliminates specimen transit delays. Complete blood counts, metabolic panels, and hormone profiles ready within two hours.',
-    image: 'https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=1200&auto=format&fit=crop&q=80',
-    specs: ['99.98% analytical precision', '2-hour emergency turnaround', 'Encrypted portal delivery'],
+      'Full-spectrum hematology, metabolic panels, and viral PCR diagnostics processed on-premises in under 45 minutes.',
+    image:
+      'https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=1000&auto=format&fit=crop&q=85',
+    specs: ['45-minute urgent blood panels', 'Automated robotic verification', 'Integrated into patient portal'],
   },
 ]
 
 export default function PinnedShowcase() {
-  const sectionRef = useRef<HTMLElement>(null)
+  const sectionRef = useRef<HTMLDivElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
   const cardsRef = useRef<(HTMLDivElement | null)[]>([])
 
+  const { openBookingModal } = useBookingModal()
+
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReducedMotion) return
 
     gsap.registerPlugin(ScrollTrigger)
@@ -49,23 +54,23 @@ export default function PinnedShowcase() {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia()
 
-      // DESKTOP: Scrubbed entrance with card fanning and depth
+      // DESKTOP: Scrubbed entrance that completes comfortably within section
       mm.add('(min-width: 1024px)', () => {
         if (!sectionRef.current) return
 
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: 'top 75%',
-            end: 'center center',
-            scrub: 1, // scrubbed to scroll
+            start: 'top 85%',
+            end: 'top 20%',
+            scrub: 0.4, // Responsive scrub without lagging
           },
         })
 
         tl.fromTo(
           headerRef.current,
-          { opacity: 0.3, y: 40 },
-          { opacity: 1, y: 0, ease: 'power1.out', duration: 1 },
+          { opacity: 0.4, y: 30 },
+          { opacity: 1, y: 0, ease: 'power1.out', duration: 0.6 },
           0
         )
 
@@ -74,18 +79,18 @@ export default function PinnedShowcase() {
           tl.fromTo(
             card,
             {
-              opacity: 0.2,
-              y: 60 + idx * 25,
-              scale: 0.94,
+              opacity: 0.3,
+              y: 45 + idx * 15,
+              scale: 0.96,
             },
             {
               opacity: 1,
               y: 0,
               scale: 1,
               ease: 'power2.out',
-              duration: 1.4,
+              duration: 0.8,
             },
-            0.2 + idx * 0.25
+            0.1 + idx * 0.15
           )
         })
       })
@@ -96,7 +101,7 @@ export default function PinnedShowcase() {
           if (!card) return
           gsap.fromTo(
             card,
-            { opacity: 0.4, y: 30 },
+            { opacity: 0.4, y: 25 },
             {
               opacity: 1,
               y: 0,
@@ -104,8 +109,8 @@ export default function PinnedShowcase() {
               scrollTrigger: {
                 trigger: card,
                 start: 'top 85%',
-                end: 'top 60%',
-                scrub: 0.6,
+                end: 'top 55%',
+                scrub: 0.4,
               },
             }
           )
@@ -119,9 +124,15 @@ export default function PinnedShowcase() {
   return (
     <section
       ref={sectionRef}
-      className="py-20 sm:py-28 md:py-32 bg-surface-50 border-t border-border/60 overflow-hidden"
+      className="py-20 sm:py-28 md:py-32 bg-gradient-to-b from-surface-50 via-white to-surface-50/70 border-t border-border/60 overflow-hidden relative"
     >
-      <Container>
+      {/* Background Soft Lighting & Medical Depth */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-primary-50/30 rounded-full blur-3xl" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f4c4505_1px,transparent_1px),linear-gradient(to_bottom,#0f4c4505_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_60%,transparent_100%)]" />
+      </div>
+
+      <Container className="relative z-10">
         <div ref={headerRef} className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16">
           <div className="max-w-2xl">
             <span className="text-[11px] font-semibold uppercase tracking-widest text-primary block mb-3">
@@ -182,13 +193,14 @@ export default function PinnedShowcase() {
               </div>
 
               <div className="p-6 sm:p-7 pt-0">
-                <Link
-                  href="/booking"
+                <button
+                  type="button"
+                  onClick={() => openBookingModal()}
                   className="inline-flex items-center gap-2 text-xs font-semibold text-primary hover:text-primary-800 transition-colors group-hover:translate-x-0.5 transition-transform"
                 >
                   <span>Schedule consultation with imaging</span>
                   <ArrowRight size={13} />
-                </Link>
+                </button>
               </div>
             </div>
           ))}
@@ -197,4 +209,3 @@ export default function PinnedShowcase() {
     </section>
   )
 }
-

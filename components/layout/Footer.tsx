@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { Container } from './Container'
 import { CLINIC_NAME, CLINIC_EMAIL, CLINIC_PHONE_TEL, CLINIC_PHONE_DISPLAY } from '@/lib/constants'
+import { useBookingModal } from '@/context/BookingModalContext'
 
 const FOOTER_LINKS = {
   Specialties: [
@@ -27,6 +28,7 @@ const FOOTER_LINKS = {
 }
 
 export function Footer() {
+  const { openBookingModal } = useBookingModal()
   return (
     <footer className="bg-white border-t border-border py-16 md:py-24 text-foreground-secondary">
       <Container>
@@ -68,6 +70,12 @@ export function Footer() {
                     <li key={link.label}>
                       <Link
                         href={link.href}
+                        onClick={(e) => {
+                          if (link.label === 'Book Appointment') {
+                            e.preventDefault()
+                            openBookingModal()
+                          }
+                        }}
                         className="text-foreground-secondary hover:text-foreground transition-colors"
                       >
                         {link.label}

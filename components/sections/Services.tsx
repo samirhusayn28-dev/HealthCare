@@ -8,15 +8,16 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowUpRight, Sparkles } from 'lucide-react'
 import { Container } from '@/components/layout/Container'
 import { SERVICES } from '@/lib/constants'
+import { useBookingModal } from '@/context/BookingModalContext'
 
-// Clean, high-resolution clinical photography
+// Authentic, high-resolution clinical and medical photography
 const SERVICE_IMAGES: Record<string, string> = {
-  'svc-1': 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?w=800&auto=format&fit=crop&q=80',
-  'svc-2': 'https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&auto=format&fit=crop&q=80',
+  'svc-1': 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=800&auto=format&fit=crop&q=80',
+  'svc-2': 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&auto=format&fit=crop&q=80',
   'svc-3': 'https://images.unsplash.com/photo-1516549655169-df83a0774514?w=800&auto=format&fit=crop&q=80',
   'svc-4': 'https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=800&auto=format&fit=crop&q=80',
-  'svc-5': 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&auto=format&fit=crop&q=80',
-  'svc-6': 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&auto=format&fit=crop&q=80',
+  'svc-5': 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=800&auto=format&fit=crop&q=80',
+  'svc-6': 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?w=800&auto=format&fit=crop&q=80',
 }
 
 export default function Services() {
@@ -24,8 +25,10 @@ export default function Services() {
   const headerRef = useRef<HTMLDivElement>(null)
   const cardsRef = useRef<(HTMLDivElement | null)[]>([])
 
+  const { openBookingModal } = useBookingModal()
+
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReducedMotion) return
 
     gsap.registerPlugin(ScrollTrigger)
@@ -33,23 +36,23 @@ export default function Services() {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia()
 
-      // DESKTOP: Scrubbed entrance for 6 service cards
+      // DESKTOP: Scrubbed entrance for 6 service cards with early finish
       mm.add('(min-width: 1024px)', () => {
         if (!sectionRef.current) return
 
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: 'top 75%',
-            end: 'center 45%',
-            scrub: 1, // scroll progress = animation progress
+            start: 'top 85%',
+            end: 'top 20%',
+            scrub: 0.4, // Responsive 1:1 scrubbed tracking
           },
         })
 
         tl.fromTo(
           headerRef.current,
-          { opacity: 0.3, y: 35 },
-          { opacity: 1, y: 0, ease: 'power1.out', duration: 1 },
+          { opacity: 0.4, y: 30 },
+          { opacity: 1, y: 0, ease: 'power1.out', duration: 0.6 },
           0
         )
 
@@ -60,18 +63,18 @@ export default function Services() {
           tl.fromTo(
             card,
             {
-              opacity: 0.2,
-              y: 50 + row * 30 + col * 15,
-              scale: 0.95,
+              opacity: 0.25,
+              y: 40 + row * 20 + col * 10,
+              scale: 0.96,
             },
             {
               opacity: 1,
               y: 0,
               scale: 1,
               ease: 'power2.out',
-              duration: 1.4,
+              duration: 0.8,
             },
-            0.15 + (row * 0.3 + col * 0.15)
+            0.1 + (row * 0.2 + col * 0.1)
           )
         })
       })
@@ -89,9 +92,9 @@ export default function Services() {
               ease: 'power1.out',
               scrollTrigger: {
                 trigger: card,
-                start: 'top 88%',
-                end: 'top 65%',
-                scrub: 0.6,
+                start: 'top 85%',
+                end: 'top 55%',
+                scrub: 0.4,
               },
             }
           )
@@ -103,23 +106,37 @@ export default function Services() {
   }, [])
 
   return (
-    <section id="services" ref={sectionRef} className="py-24 md:py-32 bg-white">
-      <Container>
-        {/* Section Header */}
-        <div ref={headerRef} className="max-w-2xl mb-16">
-          <span className="text-[11px] font-semibold uppercase tracking-widest text-primary block mb-3">
-            Clinical Scope
-          </span>
-          <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-foreground tracking-tight leading-[1.12]">
-            Comprehensive medical care under one roof.
-          </h2>
-          <p className="text-sm sm:text-base text-foreground-secondary leading-relaxed mt-4">
-            Direct access to board-certified physicians across primary and complex specialties without outside referrals.
+    <section
+      id="services"
+      ref={sectionRef}
+      className="py-20 sm:py-28 md:py-32 bg-gradient-to-b from-surface-50/70 via-white to-surface-50/80 border-t border-border/60 relative overflow-hidden"
+    >
+      {/* Background Depth Accents */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-1/4 right-5 w-[600px] h-[600px] bg-primary-50/25 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 left-5 w-[600px] h-[600px] bg-emerald-50/25 rounded-full blur-3xl" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f4c4505_1px,transparent_1px),linear-gradient(to_bottom,#0f4c4505_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_60%,transparent_100%)]" />
+      </div>
+
+      <Container className="relative z-10">
+        {/* Header with Title and Narrative */}
+        <div ref={headerRef} className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50 text-primary-700 text-[11px] font-semibold uppercase tracking-widest mb-3 border border-primary-100/60">
+              <Sparkles size={13} />
+              Comprehensive Care Programs
+            </div>
+            <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-foreground tracking-tight leading-[1.12]">
+              Clinical excellence across every department.
+            </h2>
+          </div>
+          <p className="text-xs sm:text-sm text-foreground-secondary max-w-sm leading-relaxed">
+            From preventive health screenings to advanced diagnostics and specialist interventions &mdash; all coordinated under one roof.
           </p>
         </div>
 
-        {/* 3x2 Editorial Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* 6 Grid Cards with Clinical Photo Headers */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {SERVICES.map((service, index) => {
             const imageUrl = SERVICE_IMAGES[service.id] || SERVICE_IMAGES['svc-1']
 
@@ -129,7 +146,7 @@ export default function Services() {
                 ref={(el) => {
                   cardsRef.current[index] = el
                 }}
-                className="group flex flex-col justify-between border border-border/80 rounded-3xl overflow-hidden bg-white hover:border-primary/40 hover:shadow-elevated transition-all duration-300"
+                className="group flex flex-col justify-between border border-border/80 rounded-3xl overflow-hidden bg-white/95 backdrop-blur-xs hover:border-primary/40 hover:shadow-elevated transition-all duration-300 shadow-soft"
               >
                 <div>
                   <div className="relative aspect-[16/10] w-full bg-surface-100 overflow-hidden">
@@ -140,6 +157,12 @@ export default function Services() {
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       className="object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+                    <div className="absolute top-4 left-4">
+                      <span className="px-3 py-1 rounded-full bg-white/95 backdrop-blur-md text-[10px] font-bold uppercase tracking-wider text-foreground border border-border/60 shadow-xs">
+                        Department 0{index + 1}
+                      </span>
+                    </div>
                   </div>
 
                   <div className="p-7">
@@ -162,13 +185,14 @@ export default function Services() {
                 </div>
 
                 <div className="p-7 pt-0">
-                  <Link
-                    href="/booking"
+                  <button
+                    type="button"
+                    onClick={() => openBookingModal()}
                     className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:text-primary-800 transition-colors group-hover:translate-x-0.5 transition-transform"
                   >
                     <span>Book consultation</span>
                     <ArrowUpRight size={14} />
-                  </Link>
+                  </button>
                 </div>
               </div>
             )
@@ -178,4 +202,3 @@ export default function Services() {
     </section>
   )
 }
-

@@ -48,6 +48,9 @@ export const viewport: Viewport = {
   initialScale: 1,
 }
 
+import { BookingModalProvider } from "@/context/BookingModalContext"
+import { BookingModal } from "@/components/modal/BookingModal"
+
 export default function RootLayout({
   children,
 }: {
@@ -56,13 +59,16 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${sora.variable}`}>
       <body>
-        <LenisProvider>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-          <WhatsAppFAB />
-          <AiReceptionist />
-        </LenisProvider>
+        <BookingModalProvider>
+          <LenisProvider>
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+            <WhatsAppFAB />
+            <AiReceptionist />
+            <BookingModal />
+          </LenisProvider>
+        </BookingModalProvider>
       </body>
     </html>
   )
