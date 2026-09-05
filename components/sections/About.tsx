@@ -166,18 +166,18 @@ export default function About() {
   }, [])
 
   return (
-    <div ref={sectionRef} className="relative w-full lg:h-[280vh] bg-gradient-to-b from-[#ebf3f0] via-[#f7f9f8] to-[#e8f1ed] border-y border-border/60">
-      {/* Subtle Background Accent & Soft Clinical Aura */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/3 left-10 w-[550px] h-[550px] bg-primary-100/35 rounded-full blur-3xl -translate-x-1/2" />
-        <div className="absolute bottom-10 right-10 w-[500px] h-[500px] bg-emerald-100/35 rounded-full blur-3xl" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f4c4508_1px,transparent_1px),linear-gradient(to_bottom,#0f4c4508_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_60%,transparent_100%)]" />
-      </div>
-
+    <div ref={sectionRef} className="relative w-full lg:h-[220vh] bg-gradient-to-b from-[#ebf3f0] via-[#f7f9f8] to-[#e8f1ed] border-y border-border/60">
       <section
         id="about"
         className="relative lg:sticky lg:top-0 w-full min-h-screen flex items-center py-16 md:py-24 overflow-hidden"
       >
+        {/* Subtle Background Accent & Soft Clinical Aura INSIDE the sticky section */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-1/3 left-10 w-[550px] h-[550px] bg-primary-100/35 rounded-full blur-3xl -translate-x-1/2" />
+          <div className="absolute bottom-10 right-10 w-[500px] h-[500px] bg-emerald-100/35 rounded-full blur-3xl" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f4c4508_1px,transparent_1px),linear-gradient(to_bottom,#0f4c4508_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_60%,transparent_100%)]" />
+        </div>
+
         <Container className="relative z-10">
           {/* Section Header */}
           <div ref={headerRef} className="max-w-3xl mb-12 md:mb-16">

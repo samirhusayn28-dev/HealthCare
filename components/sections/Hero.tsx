@@ -25,7 +25,6 @@ export default function Hero() {
   const headerTextRef = useRef<HTMLDivElement>(null)
   const subtextRef = useRef<HTMLDivElement>(null)
   const showcaseFrameRef = useRef<HTMLDivElement>(null)
-  const imageInnerRef = useRef<HTMLDivElement>(null)
   const badge1Ref = useRef<HTMLDivElement>(null)
   const badge2Ref = useRef<HTMLDivElement>(null)
   const badge3Ref = useRef<HTMLDivElement>(null)
@@ -57,80 +56,72 @@ export default function Hero() {
           },
         })
 
-        // Step 1: Heading transforms smoothly upward & subtle scale (completes by 0.6s)
+        // Step 1: Heading transforms smoothly upward & subtle scale (completes by 0.5s)
         tl.to(
           headerTextRef.current,
           {
-            y: -25,
-            scale: 0.97,
-            opacity: 0.95,
-            ease: 'power1.out',
-            duration: 0.6,
-          },
-          0
-        )
-
-        // Step 2: Subtext & CTAs gently fade down to spotlight central visual (completes by 0.5s)
-        tl.to(
-          subtextRef.current,
-          {
-            opacity: 0.35,
             y: -15,
+            scale: 0.98,
+            opacity: 1,
             ease: 'power1.out',
             duration: 0.5,
           },
           0
         )
 
-        // Step 3: Central clinical photography expands outward smoothly (completes by 0.9s)
+        // Step 2: Subtext & CTAs gently adjust (completes by 0.4s)
+        tl.to(
+          subtextRef.current,
+          {
+            opacity: 0.85,
+            y: -10,
+            ease: 'power1.out',
+            duration: 0.4,
+          },
+          0
+        )
+
+        // Step 3: Central clinical photography settles into full prominence (completes by 0.7s)
         tl.fromTo(
           showcaseFrameRef.current,
-          { scale: 0.93, y: 25, borderRadius: '28px' },
+          { scale: 0.95, y: 15, borderRadius: '24px' },
           {
-            scale: 1.04,
-            y: -8,
+            scale: 1,
+            y: 0,
             borderRadius: '20px',
-            boxShadow: '0 25px 60px -15px rgba(15, 76, 69, 0.25)',
+            boxShadow: '0 25px 60px -15px rgba(15, 76, 69, 0.22)',
             ease: 'power2.out',
-            duration: 0.8,
+            duration: 0.6,
           },
           0.1
         )
 
-        // Parallax depth on image inside the frame
-        tl.fromTo(
-          imageInnerRef.current,
-          { scale: 1.12, y: -15 },
-          { scale: 1.02, y: 12, ease: 'none', duration: 1.0 },
-          0
-        )
-
-        // Step 4: Staggered floating clinical credential badges reveal and lock into place (completes by 1.05s)
+        // Step 4: Staggered floating clinical credential badges reveal and lock into place (completes by 0.8s)
         tl.fromTo(
           [badge1Ref.current, badge2Ref.current, badge3Ref.current],
-          { opacity: 0, y: 25, scale: 0.9 },
+          { opacity: 0, y: 15, scale: 0.95 },
           {
             opacity: 1,
             y: 0,
             scale: 1,
-            stagger: 0.15,
+            stagger: 0.12,
             ease: 'back.out(1.4)',
-            duration: 0.6,
+            duration: 0.5,
           },
-          0.3
+          0.2
         )
 
-        // Step 5: Clinical facts bar slides in at the bottom (completes by 1.1s)
+        // Step 5: Clinical facts bar slides in at the bottom (completes by 0.8s)
         tl.fromTo(
           statsBarRef.current,
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, ease: 'power2.out', duration: 0.5 },
-          0.6
+          { opacity: 0, y: 15 },
+          { opacity: 1, y: 0, ease: 'power2.out', duration: 0.4 },
+          0.4
         )
 
-        // Large 50% dwell buffer: ensures all animations finish at exactly 50% of scroll progress
-        // so the completed view is stationary and readable for the entire second half of the scroll!
-        tl.to({}, { duration: 1.1 })
+        // Explicit 50% dwell buffer: ensures all animations finish at exactly 50% of scroll progress
+        // so the completed view is stationary, settled, and completely stable before unpinning!
+        tl.to({}, { duration: 0.8 })
       })
 
       // MOBILE (<768px): Progressive non-pinned scroll-reveal scrub
@@ -165,28 +156,19 @@ export default function Hero() {
   }, [])
 
   return (
-    <div ref={heroSectionRef} className="relative w-full md:h-[280vh] bg-gradient-to-b from-[#eaf2ee] via-[#f4f7f6] to-[#ebf3f0]">
-      {/* Subtle Background Medical Depth, Architectural Watermark & Ambient Lighting */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Real Clinical Facility Subtle Architectural Overlay */}
-        <div className="absolute inset-0 opacity-[0.045] mix-blend-multiply">
-          <Image
-            src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=2000&q=80"
-            alt=""
-            fill
-            className="object-cover"
-          />
-        </div>
-        <div className="absolute top-0 right-0 w-[650px] h-[650px] bg-primary-200/40 rounded-full blur-3xl -translate-y-1/3 translate-x-1/4" />
-        <div className="absolute bottom-1/4 left-0 w-[550px] h-[550px] bg-emerald-200/30 rounded-full blur-3xl -translate-x-1/4" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f4c4508_1px,transparent_1px),linear-gradient(to_bottom,#0f4c4508_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_35%,#000_70%,transparent_100%)]" />
-      </div>
-
+    <div ref={heroSectionRef} className="relative w-full md:h-[220vh] bg-gradient-to-b from-[#eaf2ee] via-[#f4f7f6] to-[#ebf3f0]">
       {/* Pinned Viewport Container */}
       <section
         ref={pinnedContainerRef}
         className="relative md:sticky md:top-0 w-full min-h-screen md:h-screen flex flex-col justify-between pt-24 sm:pt-28 md:pt-32 pb-6 sm:pb-8 md:pb-10 overflow-hidden"
       >
+        {/* Subtle Ambient Lighting & Grid INSIDE the pinned container so it stays synchronously anchored */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary-200/35 rounded-full blur-3xl -translate-y-1/3 translate-x-1/4" />
+          <div className="absolute bottom-1/4 left-0 w-[500px] h-[500px] bg-emerald-200/25 rounded-full blur-3xl -translate-x-1/4" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f4c4506_1px,transparent_1px),linear-gradient(to_bottom,#0f4c4506_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_35%,#000_70%,transparent_100%)]" />
+        </div>
+
         <Container className="relative z-10 flex-1 flex flex-col justify-between">
           {/* Top Section: Typography and Intros */}
           <div ref={headerTextRef} className="max-w-4xl mx-auto md:mx-0 will-change-transform">
@@ -234,7 +216,7 @@ export default function Hero() {
               ref={showcaseFrameRef}
               className="relative w-full h-[220px] sm:h-[290px] md:h-[350px] lg:h-[390px] rounded-2xl sm:rounded-3xl overflow-hidden border border-border/80 shadow-soft bg-surface-200 will-change-transform"
             >
-              <div ref={imageInnerRef} className="relative w-full h-[120%] -top-[10%] will-change-transform">
+              <div className="relative w-full h-full">
                 <Image
                   src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1600&q=85"
                   alt="Board-certified physicians reviewing clinical diagnostic scan at Medica Wellness"
