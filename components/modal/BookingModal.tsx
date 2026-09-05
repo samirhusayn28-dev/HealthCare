@@ -249,29 +249,30 @@ export function BookingModal() {
     setStep(1)
   }
 
-  if (!isOpen) return null
-
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
-        {/* Backdrop */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-          onClick={closeBookingModal}
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm cursor-pointer"
-        />
+      {isOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+          {/* Backdrop */}
+          <motion.div
+            key="booking-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={closeBookingModal}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm cursor-pointer"
+          />
 
-        {/* Modal Dialog */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96, y: 15 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.96, y: 15 }}
-          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full max-w-3xl bg-white rounded-3xl border border-border shadow-2xl flex flex-col max-h-[92vh] z-10 overflow-hidden"
-        >
+          {/* Modal Dialog */}
+          <motion.div
+            key="booking-dialog"
+            initial={{ opacity: 0, scale: 0.96, y: 15 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 15 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            className="relative w-full max-w-3xl bg-white rounded-3xl border border-border shadow-2xl flex flex-col max-h-[92vh] z-10 overflow-hidden"
+          >
           {/* Modal Header */}
           <div className="px-6 py-5 border-b border-border/70 flex items-center justify-between bg-surface-50/80 shrink-0">
             <div className="flex items-center gap-3">
@@ -844,6 +845,7 @@ export function BookingModal() {
           </div>
         </motion.div>
       </div>
-    </AnimatePresence>
-  )
+    )}
+  </AnimatePresence>
+)
 }

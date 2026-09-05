@@ -67,69 +67,70 @@ export default function About() {
             trigger: sectionRef.current,
             start: 'top top',
             end: 'bottom bottom',
-            scrub: 0.4, // responsive 1:1 scrubbed tracking without lagging
+            scrub: 0.3, // Immediate 1:1 scrubbed tracking without lagging
             invalidateOnRefresh: true,
           },
         })
 
-        // Header slides and locks
+        // Header slides and locks (completes by 0.5s)
         tl.fromTo(
           headerRef.current,
-          { y: 25, opacity: 0.85 },
-          { y: 0, opacity: 1, ease: 'power1.out', duration: 0.6 },
+          { y: 20, opacity: 0.85 },
+          { y: 0, opacity: 1, ease: 'power1.out', duration: 0.5 },
           0
         )
 
-        // Photo subtle expansion and depth parallax
+        // Photo subtle expansion and depth parallax (completes by 0.8s)
         tl.fromTo(
           photoCardRef.current,
-          { scale: 0.95, y: 30 },
-          { scale: 1.02, y: -15, ease: 'power2.out', duration: 1.6 },
+          { scale: 0.95, y: 25 },
+          { scale: 1.02, y: -10, ease: 'power2.out', duration: 0.8 },
           0
         )
 
         tl.fromTo(
           photoInnerRef.current,
           { scale: 1.12, y: -15 },
-          { scale: 1.0, y: 15, ease: 'none', duration: 1.8 },
+          { scale: 1.0, y: 12, ease: 'none', duration: 1.0 },
           0
         )
 
-        // Staggered sequential reveal of the 3 pillars (completes early)
+        // Staggered sequential reveal of the 3 pillars (completes by 0.85s)
         pillarsRef.current.forEach((el, index) => {
           if (!el) return
           tl.fromTo(
             el,
-            { opacity: 0.3, x: -25, scale: 0.98 },
+            { opacity: 0.3, x: -20, scale: 0.98 },
             {
               opacity: 1,
               x: 0,
               scale: 1,
               ease: 'power2.out',
-              duration: 0.6,
+              duration: 0.45,
             },
-            0.1 + index * 0.4
+            0.1 + index * 0.2
           )
         })
 
-        // Quote badge pops in
+        // Quote badge pops in (completes by 0.95s)
         tl.fromTo(
           quoteBadgeRef.current,
-          { opacity: 0, scale: 0.88, y: 18 },
-          { opacity: 1, scale: 1, y: 0, ease: 'back.out(1.5)', duration: 0.6 },
-          1.1
+          { opacity: 0, scale: 0.9, y: 15 },
+          { opacity: 1, scale: 1, y: 0, ease: 'back.out(1.4)', duration: 0.45 },
+          0.5
         )
 
-        // Secondary Doctor consultation badge
+        // Secondary Doctor consultation badge (completes by 0.85s)
         tl.fromTo(
           secondaryDoctorBadgeRef.current,
-          { opacity: 0, scale: 0.85, y: -15 },
-          { opacity: 1, scale: 1, y: 0, ease: 'back.out(1.4)', duration: 0.6 },
-          0.8
+          { opacity: 0, scale: 0.9, y: -12 },
+          { opacity: 1, scale: 1, y: 0, ease: 'back.out(1.4)', duration: 0.45 },
+          0.4
         )
 
-        // Holding dwell buffer: ensures 100% completion well before unpinning
-        tl.to({}, { duration: 0.8 })
+        // Large 50% dwell buffer: ensures all animations finish at exactly 50% of scroll progress
+        // giving the user ample time to read the 3 pillars and patient review before unpinning!
+        tl.to({}, { duration: 1.0 })
       })
 
       // MOBILE & TABLET: Non-pinned scrubbed reveal
@@ -165,12 +166,12 @@ export default function About() {
   }, [])
 
   return (
-    <div ref={sectionRef} className="relative w-full lg:h-[250vh] bg-gradient-to-b from-surface-50/80 via-white to-surface-50/60 border-y border-border/60">
+    <div ref={sectionRef} className="relative w-full lg:h-[280vh] bg-gradient-to-b from-[#ebf3f0] via-[#f7f9f8] to-[#e8f1ed] border-y border-border/60">
       {/* Subtle Background Accent & Soft Clinical Aura */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/3 left-10 w-[500px] h-[500px] bg-primary-50/40 rounded-full blur-3xl -translate-x-1/2" />
-        <div className="absolute bottom-10 right-10 w-[450px] h-[450px] bg-emerald-50/40 rounded-full blur-3xl" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f4c4506_1px,transparent_1px),linear-gradient(to_bottom,#0f4c4506_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_60%,transparent_100%)]" />
+        <div className="absolute top-1/3 left-10 w-[550px] h-[550px] bg-primary-100/35 rounded-full blur-3xl -translate-x-1/2" />
+        <div className="absolute bottom-10 right-10 w-[500px] h-[500px] bg-emerald-100/35 rounded-full blur-3xl" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f4c4508_1px,transparent_1px),linear-gradient(to_bottom,#0f4c4508_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_60%,transparent_100%)]" />
       </div>
 
       <section
@@ -182,11 +183,14 @@ export default function About() {
           <div ref={headerRef} className="max-w-3xl mb-12 md:mb-16">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50 text-primary-700 text-[11px] font-semibold uppercase tracking-widest mb-3 border border-primary-100/60">
               <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-              Our Care Philosophy
+              Care Philosophy
             </div>
-            <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-foreground tracking-tight leading-[1.12] text-balance">
-              Healthcare should feel like a partnership, not an assembly line.
+            <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-foreground tracking-tight leading-[1.12]">
+              Medicine practiced as it was intended &mdash; personal, unhurried, rigorous.
             </h2>
+            <p className="text-xs sm:text-sm text-foreground-secondary mt-3 max-w-2xl leading-relaxed">
+              We eliminated 10-minute rushed appointments and fragmented referrals. Our outpatient model is built around deep diagnostic listening.
+            </p>
           </div>
 
           {/* Asymmetric Split: Narrative Columns + Natural Clinic Photo */}
@@ -237,8 +241,8 @@ export default function About() {
               >
                 <div ref={photoInnerRef} className="relative w-full h-full">
                   <Image
-                    src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1000&auto=format&fit=crop&q=85"
-                    alt="Doctor listening attentively to patient during medical consultation"
+                    src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=1000&auto=format&fit=crop&q=85"
+                    alt="Senior female physician consulting with patient in clinical office"
                     fill
                     sizes="(max-width: 1024px) 100vw, 500px"
                     className="object-cover"

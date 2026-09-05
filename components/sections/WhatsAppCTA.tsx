@@ -16,8 +16,12 @@ export default function WhatsAppCTA() {
   const whatsappUrl = `https://wa.me/${CLINIC_WHATSAPP_NUMBER}?text=${WHATSAPP_MESSAGE}`
 
   return (
-    <section className="py-20 bg-surface-100 border-t border-border/70">
-      <Container>
+    <section className="py-20 bg-gradient-to-b from-[#e2ede8] to-[#d8e6e0] border-t border-border/70 relative overflow-hidden">
+      {/* Background Soft Glow */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute -top-1/2 right-1/4 w-[600px] h-[600px] bg-primary-100/40 rounded-full blur-3xl" />
+      </div>
+      <Container className="relative z-10">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           <div className="max-w-xl">
             <span className="text-[11px] font-semibold uppercase tracking-widest text-primary block mb-2">

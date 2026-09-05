@@ -52,47 +52,47 @@ export default function Hero() {
             trigger: heroSectionRef.current,
             start: 'top top',
             end: 'bottom bottom',
-            scrub: 0.4, // Responsive 1:1 scrubbed tracking without lagging
+            scrub: 0.3, // Immediate 1:1 scrubbed tracking without trailing lag
             invalidateOnRefresh: true,
           },
         })
 
-        // Step 1: Heading transforms smoothly upward & subtle scale
+        // Step 1: Heading transforms smoothly upward & subtle scale (completes by 0.6s)
         tl.to(
           headerTextRef.current,
           {
-            y: -35,
-            scale: 0.96,
-            opacity: 0.92,
+            y: -25,
+            scale: 0.97,
+            opacity: 0.95,
             ease: 'power1.out',
-            duration: 1.0,
+            duration: 0.6,
           },
           0
         )
 
-        // Step 2: Subtext & CTAs gently fade down to spotlight central visual
+        // Step 2: Subtext & CTAs gently fade down to spotlight central visual (completes by 0.5s)
         tl.to(
           subtextRef.current,
           {
-            opacity: 0.25,
-            y: -20,
+            opacity: 0.35,
+            y: -15,
             ease: 'power1.out',
-            duration: 0.8,
+            duration: 0.5,
           },
           0
         )
 
-        // Step 3: Central clinical photography expands outward smoothly
+        // Step 3: Central clinical photography expands outward smoothly (completes by 0.9s)
         tl.fromTo(
           showcaseFrameRef.current,
-          { scale: 0.92, y: 30, borderRadius: '32px' },
+          { scale: 0.93, y: 25, borderRadius: '28px' },
           {
-            scale: 1.05,
-            y: -10,
+            scale: 1.04,
+            y: -8,
             borderRadius: '20px',
             boxShadow: '0 25px 60px -15px rgba(15, 76, 69, 0.25)',
             ease: 'power2.out',
-            duration: 1.5,
+            duration: 0.8,
           },
           0.1
         )
@@ -100,36 +100,37 @@ export default function Hero() {
         // Parallax depth on image inside the frame
         tl.fromTo(
           imageInnerRef.current,
-          { scale: 1.14, y: -20 },
-          { scale: 1.02, y: 15, ease: 'none', duration: 1.8 },
+          { scale: 1.12, y: -15 },
+          { scale: 1.02, y: 12, ease: 'none', duration: 1.0 },
           0
         )
 
-        // Step 4: Staggered floating clinical credential badges reveal and lock into place
+        // Step 4: Staggered floating clinical credential badges reveal and lock into place (completes by 1.05s)
         tl.fromTo(
           [badge1Ref.current, badge2Ref.current, badge3Ref.current],
-          { opacity: 0, y: 35, scale: 0.85 },
+          { opacity: 0, y: 25, scale: 0.9 },
           {
             opacity: 1,
             y: 0,
             scale: 1,
-            stagger: 0.25,
+            stagger: 0.15,
             ease: 'back.out(1.4)',
-            duration: 0.9,
+            duration: 0.6,
           },
-          0.5
+          0.3
         )
 
-        // Step 5: Clinical facts bar slides in at the bottom
+        // Step 5: Clinical facts bar slides in at the bottom (completes by 1.1s)
         tl.fromTo(
           statsBarRef.current,
-          { opacity: 0, y: 25 },
-          { opacity: 1, y: 0, ease: 'power2.out', duration: 0.8 },
-          1.1
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, ease: 'power2.out', duration: 0.5 },
+          0.6
         )
 
-        // Holding dwell buffer: ensures all animations finish at ~70% of scroll progress
-        tl.to({}, { duration: 0.8 })
+        // Large 50% dwell buffer: ensures all animations finish at exactly 50% of scroll progress
+        // so the completed view is stationary and readable for the entire second half of the scroll!
+        tl.to({}, { duration: 1.1 })
       })
 
       // MOBILE (<768px): Progressive non-pinned scroll-reveal scrub
@@ -164,12 +165,21 @@ export default function Hero() {
   }, [])
 
   return (
-    <div ref={heroSectionRef} className="relative w-full md:h-[250vh] bg-surface-50">
-      {/* Subtle Background Medical Depth & Ambient Lighting */}
+    <div ref={heroSectionRef} className="relative w-full md:h-[280vh] bg-gradient-to-b from-[#eaf2ee] via-[#f4f7f6] to-[#ebf3f0]">
+      {/* Subtle Background Medical Depth, Architectural Watermark & Ambient Lighting */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary-100/35 rounded-full blur-3xl -translate-y-1/3 translate-x-1/4" />
-        <div className="absolute bottom-1/4 left-0 w-[500px] h-[500px] bg-emerald-100/25 rounded-full blur-3xl -translate-x-1/4" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f4c4506_1px,transparent_1px),linear-gradient(to_bottom,#0f4c4506_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_35%,#000_70%,transparent_100%)]" />
+        {/* Real Clinical Facility Subtle Architectural Overlay */}
+        <div className="absolute inset-0 opacity-[0.045] mix-blend-multiply">
+          <Image
+            src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=2000&q=80"
+            alt=""
+            fill
+            className="object-cover"
+          />
+        </div>
+        <div className="absolute top-0 right-0 w-[650px] h-[650px] bg-primary-200/40 rounded-full blur-3xl -translate-y-1/3 translate-x-1/4" />
+        <div className="absolute bottom-1/4 left-0 w-[550px] h-[550px] bg-emerald-200/30 rounded-full blur-3xl -translate-x-1/4" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f4c4508_1px,transparent_1px),linear-gradient(to_bottom,#0f4c4508_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_35%,#000_70%,transparent_100%)]" />
       </div>
 
       {/* Pinned Viewport Container */}
@@ -181,7 +191,7 @@ export default function Hero() {
           {/* Top Section: Typography and Intros */}
           <div ref={headerTextRef} className="max-w-4xl mx-auto md:mx-0 will-change-transform">
             {/* Subtle status chip */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md border border-border text-[11px] font-medium text-foreground-secondary mb-4 sm:mb-6 tracking-wide shadow-xs">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md border border-border text-[11px] font-medium text-foreground-secondary mb-4 sm:mb-6 tracking-wide shadow-xs">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
               <span>Accepting New Patients &bull; San Francisco Main Campus</span>
             </div>
@@ -226,8 +236,8 @@ export default function Hero() {
             >
               <div ref={imageInnerRef} className="relative w-full h-[120%] -top-[10%] will-change-transform">
                 <Image
-                  src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1600&q=85"
-                  alt="Modern clinical consultation suite at Medica Wellness"
+                  src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1600&q=85"
+                  alt="Board-certified physicians reviewing clinical diagnostic scan at Medica Wellness"
                   fill
                   priority
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"

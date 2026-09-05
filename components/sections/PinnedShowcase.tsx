@@ -61,16 +61,16 @@ export default function PinnedShowcase() {
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: 'top 85%',
-            end: 'top 20%',
-            scrub: 0.4, // Responsive scrub without lagging
+            start: 'top 80%',
+            end: 'top 35%', // Fully completes comfortably while section is centered
+            scrub: 0.3, // Immediate responsive tracking
           },
         })
 
         tl.fromTo(
           headerRef.current,
-          { opacity: 0.4, y: 30 },
-          { opacity: 1, y: 0, ease: 'power1.out', duration: 0.6 },
+          { opacity: 0.35, y: 25 },
+          { opacity: 1, y: 0, ease: 'power1.out', duration: 0.5 },
           0
         )
 
@@ -79,18 +79,18 @@ export default function PinnedShowcase() {
           tl.fromTo(
             card,
             {
-              opacity: 0.3,
-              y: 45 + idx * 15,
-              scale: 0.96,
+              opacity: 0.25,
+              y: 35 + idx * 12,
+              scale: 0.97,
             },
             {
               opacity: 1,
               y: 0,
               scale: 1,
               ease: 'power2.out',
-              duration: 0.8,
+              duration: 0.6,
             },
-            0.1 + idx * 0.15
+            0.1 + idx * 0.12
           )
         })
       })
@@ -101,7 +101,7 @@ export default function PinnedShowcase() {
           if (!card) return
           gsap.fromTo(
             card,
-            { opacity: 0.4, y: 25 },
+            { opacity: 0.35, y: 20 },
             {
               opacity: 1,
               y: 0,
@@ -109,8 +109,8 @@ export default function PinnedShowcase() {
               scrollTrigger: {
                 trigger: card,
                 start: 'top 85%',
-                end: 'top 55%',
-                scrub: 0.4,
+                end: 'top 50%',
+                scrub: 0.3,
               },
             }
           )
@@ -124,12 +124,12 @@ export default function PinnedShowcase() {
   return (
     <section
       ref={sectionRef}
-      className="py-20 sm:py-28 md:py-32 bg-gradient-to-b from-surface-50 via-white to-surface-50/70 border-t border-border/60 overflow-hidden relative"
+      className="py-20 sm:py-28 md:py-32 bg-gradient-to-b from-[#e8f1ed] via-[#f5f8f6] to-[#ecf3f0] border-t border-border/60 overflow-hidden relative"
     >
       {/* Background Soft Lighting & Medical Depth */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-primary-50/30 rounded-full blur-3xl" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f4c4505_1px,transparent_1px),linear-gradient(to_bottom,#0f4c4505_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_60%,transparent_100%)]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[550px] bg-primary-100/35 rounded-full blur-3xl" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f4c4508_1px,transparent_1px),linear-gradient(to_bottom,#0f4c4508_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_60%,transparent_100%)]" />
       </div>
 
       <Container className="relative z-10">

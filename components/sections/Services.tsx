@@ -43,16 +43,16 @@ export default function Services() {
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: 'top 85%',
-            end: 'top 20%',
-            scrub: 0.4, // Responsive 1:1 scrubbed tracking
+            start: 'top 80%',
+            end: 'top 35%', // Fully completes early while cards are centered in viewport
+            scrub: 0.3, // Immediate responsive tracking
           },
         })
 
         tl.fromTo(
           headerRef.current,
-          { opacity: 0.4, y: 30 },
-          { opacity: 1, y: 0, ease: 'power1.out', duration: 0.6 },
+          { opacity: 0.35, y: 25 },
+          { opacity: 1, y: 0, ease: 'power1.out', duration: 0.5 },
           0
         )
 
@@ -64,17 +64,17 @@ export default function Services() {
             card,
             {
               opacity: 0.25,
-              y: 40 + row * 20 + col * 10,
-              scale: 0.96,
+              y: 30 + row * 15 + col * 8,
+              scale: 0.97,
             },
             {
               opacity: 1,
               y: 0,
               scale: 1,
               ease: 'power2.out',
-              duration: 0.8,
+              duration: 0.55,
             },
-            0.1 + (row * 0.2 + col * 0.1)
+            0.1 + (row * 0.12 + col * 0.06)
           )
         })
       })
@@ -85,7 +85,7 @@ export default function Services() {
           if (!card) return
           gsap.fromTo(
             card,
-            { opacity: 0.35, y: 25 },
+            { opacity: 0.35, y: 20 },
             {
               opacity: 1,
               y: 0,
@@ -93,8 +93,8 @@ export default function Services() {
               scrollTrigger: {
                 trigger: card,
                 start: 'top 85%',
-                end: 'top 55%',
-                scrub: 0.4,
+                end: 'top 50%',
+                scrub: 0.3,
               },
             }
           )
@@ -109,13 +109,13 @@ export default function Services() {
     <section
       id="services"
       ref={sectionRef}
-      className="py-20 sm:py-28 md:py-32 bg-gradient-to-b from-surface-50/70 via-white to-surface-50/80 border-t border-border/60 relative overflow-hidden"
+      className="py-20 sm:py-28 md:py-32 bg-gradient-to-b from-[#ecf3f0] via-[#f7faf8] to-[#e9f2ee] border-t border-border/60 relative overflow-hidden"
     >
       {/* Background Depth Accents */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/4 right-5 w-[600px] h-[600px] bg-primary-50/25 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 left-5 w-[600px] h-[600px] bg-emerald-50/25 rounded-full blur-3xl" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f4c4505_1px,transparent_1px),linear-gradient(to_bottom,#0f4c4505_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_60%,transparent_100%)]" />
+        <div className="absolute top-1/4 right-5 w-[650px] h-[650px] bg-primary-100/35 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 left-5 w-[650px] h-[650px] bg-emerald-100/30 rounded-full blur-3xl" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f4c4508_1px,transparent_1px),linear-gradient(to_bottom,#0f4c4508_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_60%,transparent_100%)]" />
       </div>
 
       <Container className="relative z-10">

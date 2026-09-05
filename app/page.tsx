@@ -6,7 +6,6 @@ import Services from '@/components/sections/Services'
 import DoctorsList from '@/components/sections/DoctorsList'
 import Testimonials from '@/components/sections/Testimonials'
 import WhatsAppCTA from '@/components/sections/WhatsAppCTA'
-import BookingForm from '@/components/sections/BookingForm'
 
 export const metadata: Metadata = {
   title: 'Medica Wellness Clinic — Outpatient Specialists',
@@ -22,7 +21,6 @@ export default function HomePage() {
       <PinnedShowcase />
       <Services />
       <DoctorsList limit={4} />
-      <BookingForm />
       <Testimonials />
       <WhatsAppCTA />
     </>

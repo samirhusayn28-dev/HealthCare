@@ -287,9 +287,15 @@ export default function Testimonials() {
     <section
       id="testimonials"
       ref={sectionRef}
-      className="py-20 sm:py-28 md:py-32 bg-white border-t border-border/60 overflow-hidden"
+      className="py-20 sm:py-28 md:py-32 bg-gradient-to-b from-[#e8f1ed] via-[#f5f8f6] to-[#edf4f0] border-t border-border/60 overflow-hidden relative"
     >
-      <Container>
+      {/* Background Soft Lighting & Medical Depth */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-[750px] h-[550px] bg-primary-100/30 rounded-full blur-3xl" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f4c4508_1px,transparent_1px),linear-gradient(to_bottom,#0f4c4508_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_60%,transparent_100%)]" />
+      </div>
+
+      <Container className="relative z-10">
         {/* Header with Title and Scroll Controls */}
         <div ref={headerRef} className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 sm:mb-14">
           <div className="max-w-2xl">
